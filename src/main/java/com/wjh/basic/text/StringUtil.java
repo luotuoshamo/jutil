@@ -1,4 +1,4 @@
-package com.wjh.core.basic.text;
+package com.wjh.basic.text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class StringUtil {
      * 获取全球唯一的字符串
      * 生成2个相同的字符串的概率是62^length
      *
-     * @param length 随机字符串的产犊 建议取8
+     * @param length 随机字符串的长度 建议取8
      */
     public static String getUniqueString(int length) {
         String s = "";
@@ -79,6 +79,7 @@ public class StringUtil {
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
 
+        // 测试破解难度
         for (int i = 0; i < 1000_0000; i++) {
             String uniqueString = getUniqueString(8);
             if (list.contains(uniqueString)) {

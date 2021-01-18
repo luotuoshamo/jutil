@@ -1,6 +1,6 @@
-package com.wjh.core.basic.text.idCard;
+package com.wjh.basic.text.idCard;
 
-import com.wjh.core.basic.map.MapUtil;
+import com.wjh.basic.map.MapUtil;
 
 import java.util.HashMap;
 import java.util.Map;

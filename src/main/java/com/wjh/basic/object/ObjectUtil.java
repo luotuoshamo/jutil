@@ -1,4 +1,4 @@
-package com.wjh.core.basic.object;
+package com.wjh.basic.object;
 
 public class ObjectUtil {
     /**

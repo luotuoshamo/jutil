@@ -1,4 +1,4 @@
-package com.wjh.core.basic.text.pinyin;
+package com.wjh.basic.text.pinyin;
 
 import java.io.FileInputStream;
 import java.util.HashMap;

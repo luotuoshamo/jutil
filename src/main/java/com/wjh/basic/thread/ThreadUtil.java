@@ -1,4 +1,4 @@
-package com.wjh.core.basic.thread;
+package com.wjh.basic.thread;
 
 public class ThreadUtil {
     /**

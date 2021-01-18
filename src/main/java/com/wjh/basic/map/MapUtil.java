@@ -1,4 +1,4 @@
-package com.wjh.core.basic.map;
+package com.wjh.basic.map;
 
 import java.util.HashMap;
 import java.util.Map;

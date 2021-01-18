@@ -1,10 +1,7 @@
-package com.wjh.core.basic.text.idCard;
+package com.wjh.basic.text.idCard;
 
-import com.wjh.core.basic.text.StringUtil;
-import com.wjh.entity.Result;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.wjh.basic.text.StringUtil;
+import com.wjh.basic.entity.Result;
 
 /**
  * 18位身份证号码：

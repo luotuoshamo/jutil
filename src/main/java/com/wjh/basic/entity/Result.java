@@ -1,4 +1,4 @@
-package com.wjh.entity;
+package com.wjh.basic.entity;
 
 /**
  * 统一格式的结果
@@ -6,9 +6,6 @@ package com.wjh.entity;
 public class Result {
     private Boolean success;
     private String msg;
-
-    public Result() {
-    }
 
     public Result(Boolean success, String msg) {
         this.success = success;

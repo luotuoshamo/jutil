@@ -1,4 +1,4 @@
-package com.wjh.core.basic.file;
+package com.wjh.basic.file;
 
 import java.io.File;
 import java.io.FileInputStream;
