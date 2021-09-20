@@ -1,16 +1,10 @@
 package com.wjh.basic.object;
 
+import com.wjh.basic.text.StringUtil;
+
 public class ObjectUtil {
-    /**
-     * ?п?
-     * ?????????null ????true
-     * ??????????null "" "  " ????true
-     */
-    public static boolean isBlank(Object v){
-        if(v instanceof String){
-            String s = (String)v;
-            return v == null || s.trim().isEmpty();
-        }
+    public static boolean isBlank(Object v) {
+        if (v instanceof String) return StringUtil.isBlank((String) v);
         return v == null;
     }
 }
