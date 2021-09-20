@@ -34,4 +34,10 @@ public class T2 {
         String md5Str = new BigInteger(1, digest).toString(16);
         return md5Str;
     }
+
+    @Test
+    public void ttt(){
+        String[] s = "sohu.com".split("\\.");
+        System.out.println(s[0]);
+    }
 }

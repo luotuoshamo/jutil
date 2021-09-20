@@ -8,13 +8,13 @@ public class DateUtil {
     /**
      * 所有日期、时间都用该格式
      */
-    public static String DATE_MASK = "yyyy-MM-dd";
-    public static String TIME_MASK = "HH:mm:ss";
-    public static String DATE_TIME_MASK = "yyyy-MM-dd HH:mm:ss";
+    public final static String DATE_MASK = "yyyy-MM-dd";
+    public final static String TIME_MASK = "HH:mm:ss";
+    public final static String DATE_TIME_MASK = "yyyy-MM-dd HH:mm:ss";
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_MASK);
-    private static SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_MASK);
-    private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_MASK);
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_MASK);
+    private final static SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_MASK);
+    private final static SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_TIME_MASK);
 
     /**
      * @param s s必须满足MASK
@@ -93,6 +93,7 @@ public class DateUtil {
     public static void main(String[] args) throws Exception {
         Date currentDate = new Date();
         System.out.println(dateToString(new Date()));
+        // 加30天对应的秒数会有bug
         System.out.println(dateToString(addSeconds(currentDate,24*60*60)));
     }
 }

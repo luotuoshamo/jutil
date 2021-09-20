@@ -1,4 +1,4 @@
-package com.wjh.basic.entity;
+package com.wjh.common;
 
 /**
  * 统一格式的结果
