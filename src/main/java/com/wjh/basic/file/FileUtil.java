@@ -16,25 +16,20 @@ public class FileUtil {
      */
     public static void delete(String path) {
         File file = new File(path);
-        if (!file.exists()) {
-            return;
-        }
-        if (file.isFile()) {//文件可直接删除
-            file.delete();
-        } else if (file.isDirectory()) {//空文件夹才能直接删除
+        if (!file.exists()) return;
+
+        // 文件可直接删除
+        if (file.isFile()) file.delete();
+        else if (file.isDirectory()) {//空文件夹才能直接删除
             String[] subFileNames = file.list();//文件夹file中的文件、文件夹
-            if (subFileNames == null) {//文件不存在或其它错误
-                return;
-            }
-            //空文件夹可直接删除
-            if (subFileNames.length == 0) {
-                file.delete();
-            }
+            if (subFileNames == null) return;//文件不存在或其它错误
+            // 空文件夹可直接删除
+            if (subFileNames.length == 0) file.delete();
+
             //清空文件夹中的内容
             for (String subFileName : subFileNames) {
                 String absolutePath = file.getAbsolutePath();
                 absolutePath = absolutePath.endsWith("/") || absolutePath.endsWith("\\") ? absolutePath : absolutePath + "/";
-
                 String subFilePath = absolutePath + subFileName;
                 delete(subFilePath);
             }
@@ -50,16 +45,12 @@ public class FileUtil {
      */
     public static boolean isEmptyDir(String dirPath) throws Exception {
         File file = new File(dirPath);
-        if (!file.exists()) {
-            throw new Exception("文件夹【" + dirPath + "】不存在");
-        }
-        if (file.isFile()) {
-            throw new Exception("dirPath不是文件夹");
-        }
+        if (!file.exists()) throw new Exception("文件夹【" + dirPath + "】不存在");
+        if (file.isFile()) throw new Exception("dirPath不是文件夹");
+
         String[] subFileNames = file.list();
-        if (subFileNames == null) {
-            throw new Exception("subFileNames == null");
-        }
+        if (subFileNames == null) throw new Exception(String.format("文件夹[%s]异常", dirPath));
+
         return subFileNames.length == 0;
     }
 

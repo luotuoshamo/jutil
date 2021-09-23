@@ -50,12 +50,11 @@ public class DateUtilTest {
 
     @Test
     public void getMonth() {
-        Assert.assertEquals(DateUtil.getMonth(date)+"","12");
+        Assert.assertEquals(DateUtil.getMonth(date) + "", "12");
     }
 
     @Test
     public void getDay() {
-        Assert.assertEquals(DateUtil.getDay(date)+"","5");
-
+        Assert.assertEquals(DateUtil.getDay(date) + "", "5");
     }
 }
