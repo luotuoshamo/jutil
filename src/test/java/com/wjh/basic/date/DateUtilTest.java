@@ -41,4 +41,21 @@ public class DateUtilTest {
         String s = DateUtil.dateToString(date, mask);
         Assert.assertEquals(s, "2020-12-06 12:09:35");
     }
+
+    @Test
+    public void getYear() {
+        String year = DateUtil.getYear(date) + "";
+        Assert.assertEquals(year, "2020");
+    }
+
+    @Test
+    public void getMonth() {
+        Assert.assertEquals(DateUtil.getMonth(date)+"","12");
+    }
+
+    @Test
+    public void getDay() {
+        Assert.assertEquals(DateUtil.getDay(date)+"","5");
+
+    }
 }

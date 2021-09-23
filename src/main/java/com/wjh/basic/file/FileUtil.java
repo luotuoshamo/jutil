@@ -1,8 +1,6 @@
 package com.wjh.basic.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 
 /**
  * 文件、文件夹工具类
@@ -117,7 +115,7 @@ public class FileUtil {
         FileInputStream fileInputStream = new FileInputStream(fromFile);
         FileOutputStream fileOutputStream = new FileOutputStream(toFile);
         int readByte;//读到的1个byte
-        while ((readByte =fileInputStream.read())!=-1) {
+        while ((readByte = fileInputStream.read()) != -1) {
             System.out.println(readByte);
             fileOutputStream.write(readByte);
         }
@@ -126,9 +124,9 @@ public class FileUtil {
     }
 
     public static void main(String[] args) throws Exception {
-       // copyFileToFile("d:/tmp/a.txt","d:/tmp/b.txt");
-      String p="d:/tmp/a.txt";
-      String p2="d:/tmp/b.txt";
+        // copyFileToFile("d:/tmp/a.txt","d:/tmp/b.txt");
+        String p = "d:/tmp/a.txt";
+        String p2 = "d:/tmp/b.txt";
         File file = new File(p);
         File file2 = new File(p2);
         FileInputStream fileInputStream = new FileInputStream(file);
@@ -138,5 +136,38 @@ public class FileUtil {
         fileOutputStream.close();
         fileInputStream.close();
         System.out.println(read);
+    }
+
+
+    /**
+     * 将输入流引入输出流
+     * fire1  ==input stream==> == output stream==>  file2
+     * |<---------------pipe------ -------->|
+     */
+    public static void copyFile(InputStream is, OutputStream os) throws Exception {
+        if (is == null) throw new Exception("is不可为空");
+        if (os == null) throw new Exception("os不可为空");
+        // do copy
+        byte[] cache = new byte[1024];
+        while (true) {
+            int read = is.read(cache);
+            if (read == -1) break;
+            os.write(cache, 0, read);
+        }
+        os.close();
+        is.close();
+    }
+
+    /**
+     * 输入流转字节数组
+     */
+    public static byte[] inputStreamToByteArray(InputStream is) throws Exception {
+        if (is == null) throw new Exception("is不可为空");
+        if (is.available() > Integer.MAX_VALUE) {
+            throw new Exception("InputStream过大，不可转为byte[]");
+        }
+        byte[] bytes = new byte[is.available()];
+        is.read(bytes);
+        return bytes;
     }
 }

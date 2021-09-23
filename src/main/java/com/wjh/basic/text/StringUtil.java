@@ -50,4 +50,18 @@ public class StringUtil {
             }
         }
     }
+
+    /**
+     * 功能等价于String.replaceAll
+     * 但是"abc${name}123${name}".reolaceAll("${name}","wjh") 编译报错
+     */
+    public static String replaceAll(String s, String target, String replacement) {
+        if (isBlank(s)) return s;
+        if (target == null) return s;
+        while (true) {
+            if (s.indexOf(target) == -1) break;
+            s = s.replace(target, replacement);
+        }
+        return s;
+    }
 }

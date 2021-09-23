@@ -1,4 +1,4 @@
-package mail;
+package com.wjh.mail;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
