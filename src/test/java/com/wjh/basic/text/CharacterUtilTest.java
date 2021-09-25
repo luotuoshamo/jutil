@@ -8,10 +8,42 @@ import static org.junit.Assert.*;
 public class CharacterUtilTest {
     @Test
     public void isChineseCharacter() {
-        boolean b1 = CharacterUtil.isChineseCharacter('张');
-        Assert.assertTrue(b1);
+        Assert.assertTrue(CharacterUtil.isChineseCharacter('张'));
+        Assert.assertFalse(CharacterUtil.isChineseCharacter('c'));
+    }
 
-        boolean b2 = CharacterUtil.isChineseCharacter('c');
-        Assert.assertFalse(b2);
+    @Test
+    public void isNumberCharacter() {
+        Assert.assertFalse(CharacterUtil.isNumberCharacter(null));
+        Assert.assertTrue(CharacterUtil.isNumberCharacter('5'));
+        Assert.assertFalse(CharacterUtil.isNumberCharacter('a'));
+    }
+
+    @Test
+    public void isLowerCaseLetter() {
+        Assert.assertTrue(CharacterUtil.isLowerCaseLetter('a'));
+        Assert.assertFalse(CharacterUtil.isLowerCaseLetter('A'));
+    }
+
+    @Test
+    public void isUpperCaseLetter() {
+        Assert.assertTrue(CharacterUtil.isUpperCaseLetter('A'));
+        Assert.assertFalse(CharacterUtil.isUpperCaseLetter('a'));
+    }
+
+    @Test
+    public void isNormalSpace() {
+        Assert.assertTrue(CharacterUtil.isNotSpace(' '));
+    }
+
+    @Test
+    public void isNbspSpace() {
+        char c = 160;
+        Assert.assertTrue(CharacterUtil.isNbspSpace(c));
+
+    }
+
+    @Test
+    public void isSpace() {
     }
 }

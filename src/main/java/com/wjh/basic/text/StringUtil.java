@@ -17,11 +17,25 @@ public class StringUtil {
      * 判断字符串是否为空
      * ""        true
      * "   "     true
+     * "   "     true  这里是nbsp空格，普通空格的编码是32，nbsp空格的编码是160
      * "a"       false
      * "null"    true    String.valueOf(obj)如果obj是null就转成“null”
      */
     public static boolean isBlank(String s) {
-        return s == null || s.trim().isEmpty() || "null".equalsIgnoreCase(s);
+        return s == null || deepTrim(s).isEmpty() || "null".equalsIgnoreCase(s);
+    }
+
+    /**
+     * String.trim只能去掉编码是32的空格，去不掉编码是160的nbsp空格
+     */
+    public static String deepTrim(String s) {
+        if (s == null) return null;
+        String newStr = "";
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (CharacterUtil.isNotSpace(c)) newStr += c;
+        }
+        return newStr;
     }
 
     /**
@@ -30,6 +44,7 @@ public class StringUtil {
      * "100.01"     true
      * "100."       true
      * "100a"       false
+     * ".2"         true
      */
     public static boolean isNumber(String s) {
         if (isBlank(s)) return false;

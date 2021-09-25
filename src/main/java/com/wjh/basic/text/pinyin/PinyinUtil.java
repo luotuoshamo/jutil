@@ -62,7 +62,7 @@ public class PinyinUtil {
     public static String getChineseSentencePinyin(String chineseSentence) {
         String pinyin = "";
         for (int i = 0; i < chineseSentence.length(); i++) {
-            pinyin += getChineseCharacterPinyin(chineseSentence.charAt(i)) + CharacterUtil.SPACE;
+            pinyin += getChineseCharacterPinyin(chineseSentence.charAt(i)) + CharacterUtil.NORMAL_SPACE;
         }
         return pinyin.substring(0, pinyin.length() - 1);
     }
