@@ -18,9 +18,10 @@ public class StringUtil {
      * ""        true
      * "   "     true
      * "a"       false
+     * "null"    true    String.valueOf(obj)如果obj是null就转成“null”
      */
     public static boolean isBlank(String s) {
-        return s == null || s.trim().isEmpty();
+        return s == null || s.trim().isEmpty() || "null".equalsIgnoreCase(s);
     }
 
     /**
@@ -63,5 +64,13 @@ public class StringUtil {
             s = s.replace(target, replacement);
         }
         return s;
+    }
+
+    /**
+     * 判断s中是否包含contain,忽略大小写
+     */
+    public static boolean constainsIgnoreCase(String s, String contain) {
+        if (isBlank(s) || isBlank(contain)) return false;
+        return s.toLowerCase().contains(contain.toLowerCase());
     }
 }

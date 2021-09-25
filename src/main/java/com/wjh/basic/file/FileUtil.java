@@ -1,5 +1,7 @@
 package com.wjh.basic.file;
 
+import com.wjh.basic.text.StringUtil;
+
 import java.io.*;
 
 /**
@@ -7,32 +9,33 @@ import java.io.*;
  * 所有地址都用绝对地址
  */
 public class FileUtil {
-    public static byte[] block_1MB = new byte[1024];
+    public static byte[] block1KB = new byte[1024];
+    public static byte[] block1MB = new byte[1024 * 1024];
 
     /**
      * 删除文件或文件夹
+     * 文件夹不为空时，只能递归地将文件夹中的文件、文件夹删除完才能再删除该文件夹
      *
-     * @param path 例如：d:/tmp   d:/    d:/x.txt
+     * @param path 文件或文件夹的绝对路径 例如：d:/tmp   d:/    d:/x.txt
      */
     public static void delete(String path) {
+        if (StringUtil.isBlank(path)) return;
         File file = new File(path);
-        if (!file.exists()) return;
+        if (file == null || !file.exists()) return;
 
-        // 文件可直接删除
-        if (file.isFile()) file.delete();
-        else if (file.isDirectory()) {//空文件夹才能直接删除
+        if (file.isFile()) file.delete();// 文件可直接删除
+        else if (file.isDirectory()) {
             String[] subFileNames = file.list();//文件夹file中的文件、文件夹
-            if (subFileNames == null) return;//文件不存在或其它错误
-            // 空文件夹可直接删除
-            if (subFileNames.length == 0) file.delete();
-
+            if (subFileNames == null) return;// 文件夹不存在或其它错误
+            if (subFileNames.length == 0) file.delete();// 空文件夹可直接删除
             //清空文件夹中的内容
             for (String subFileName : subFileNames) {
                 String absolutePath = file.getAbsolutePath();
                 absolutePath = absolutePath.endsWith("/") || absolutePath.endsWith("\\") ? absolutePath : absolutePath + "/";
-                String subFilePath = absolutePath + subFileName;
-                delete(subFilePath);
+                String subFileAbsolutePath = absolutePath + subFileName;
+                delete(subFileAbsolutePath);
             }
+
             //删除空文件夹
             file.delete();
         }
@@ -43,13 +46,13 @@ public class FileUtil {
      *
      * @return 文件夹为空返回true
      */
-    public static boolean isEmptyDir(String dirPath) throws Exception {
+    public static boolean isEmptyDir(String dirPath) {
         File file = new File(dirPath);
-        if (!file.exists()) throw new Exception("文件夹【" + dirPath + "】不存在");
-        if (file.isFile()) throw new Exception("dirPath不是文件夹");
+        if (!file.exists()) throw new RuntimeException(String.format("文件夹[%s]不存在", dirPath));
+        if (file.isFile()) throw new RuntimeException("[%s]不是文件夹".format(dirPath));
 
         String[] subFileNames = file.list();
-        if (subFileNames == null) throw new Exception(String.format("文件夹[%s]异常", dirPath));
+        if (subFileNames == null) throw new RuntimeException(String.format("文件夹[%s]异常", dirPath));
 
         return subFileNames.length == 0;
     }
@@ -57,106 +60,75 @@ public class FileUtil {
 
     /**
      * 复制文件
-     *
-     * @param toPath 文件 将a文件的内容复制到toPath
-     *               文件夹 在toPath中
+     * FileUtil.copyFile("d:/tmp/gitstd/a.txt", "d:/p.txt");
      */
-    public static void copyFile(String fromPath, String toPath) throws Exception {
-        File fromFile = new File(fromPath);
-        File toFile = new File(toPath);
-        if (!fromFile.isFile()) {
-            throw new Exception("【" + fromPath + "】不是文件");
-        }
-        if (!fromFile.exists()) {
-            throw new Exception("【" + fromPath + "】不存在");
-        }
+    public static void copyFile(String fromFilePath, String toFilePath) throws IOException {
+        if (StringUtil.isBlank(fromFilePath) || StringUtil.isBlank(toFilePath)) return;
+        File fromFile = new File(fromFilePath);
+        File toFile = new File(toFilePath);
+        if (fromFile.isDirectory()) throw new RuntimeException(String.format("[%s]不是文件", fromFilePath));
+        if (toFile.isDirectory()) throw new RuntimeException(String.format("[%s]不是文件", toFilePath));
 
-        if (toFile.isFile()) {//d:/tmp/b.txt
-            toFile = toFile.exists() ? toFile : new File(toFile, fromFile.getName());
-            FileInputStream fileInputStream = new FileInputStream(fromFile);
-            FileOutputStream fileOutputStream = new FileOutputStream(toFile);
-            int readByteCount = -1;
-            while ((readByteCount = fileInputStream.read(block_1MB)) != -1) {
 
+        // do copy
+        FileInputStream fis = new FileInputStream(fromFilePath);
+        FileOutputStream fos = new FileOutputStream(toFilePath);
+        byte[] buffer = new byte[1024];// 1KB
+        while (true) {
+            int readCount = fis.read(buffer);
+            if (readCount == -1) return;
+            fos.write(buffer, 0, readCount);
+        }
+    }
+
+    /**
+     * 复制文件夹
+     * <p>
+     * dirFrom
+     * |-dir1----|-dir3-----fire3
+     * |---------|-file2
+     * |-dir2
+     * |-file1
+     * <p>
+     * 写递归代码时只用考虑第一层，即dir1,dir2,file1
+     */
+    public static void copyDir(String fromDirPath, String toDirPath) throws IOException {
+        if (StringUtil.isBlank(fromDirPath) || StringUtil.isBlank(toDirPath)) return;
+        File fromDir = new File(fromDirPath);
+        File toDir = new File(toDirPath);
+
+        if (!fromDir.exists()) throw new RuntimeException(String.format("[%s]不存在", fromDirPath));
+        if (!toDir.exists()) toDir.mkdirs();
+        if (fromDir.isFile()) throw new RuntimeException(String.format("[%s]不是文件夹", fromDirPath));
+        if (toDir.isFile()) throw new RuntimeException(String.format("[%s]不是文件夹", toDirPath));
+
+        File[] subFiles = fromDir.listFiles();
+        if (subFiles == null || subFiles.length == 0) return;
+
+        String toAbsolutePath = toDir.getAbsolutePath();
+        toAbsolutePath = toAbsolutePath.endsWith("/") || toAbsolutePath.endsWith("\\") ? toAbsolutePath : toAbsolutePath + "/";
+
+        for (File subFile : subFiles) {
+            if (subFile.isDirectory()) {// 在目的地建同名文件夹，在复制
+                String subDirName = subFile.getName();
+                new File(toAbsolutePath + subDirName).mkdir();
+                copyDir(subFile.getAbsolutePath(), toAbsolutePath + subDirName);
+            } else if (subFile.isFile()) {
+                String toAbsoluteFilePath = toAbsolutePath + subFile.getName();
+                new File(toAbsoluteFilePath).createNewFile();
+                copyFile(subFile.getAbsolutePath(), toAbsoluteFilePath);
             }
         }
     }
 
     /**
-     * 将文件fromFilePath中的内容复制到toFilePath中
-     *
-     * @param fromFilePath 绝对路径 d:/a.txt
-     * @param toFilePath   绝对路径 d:/b.txt
+     * 输入流转字节数组,只适用50MB的数据
      */
-    public static void copyFileToFile(String fromFilePath, String toFilePath) throws Exception {
-        File fromFile = new File(fromFilePath);
-        File toFile = new File(fromFilePath);
-        if (!fromFile.exists()) {
-            throw new Exception("【" + fromFilePath + "】不存在");
-        }
-        if (!fromFile.isFile()) {
-            throw new Exception("【" + fromFilePath + "】不是文件");
-        }
-        if (!toFile.exists()) {
-            throw new Exception("【" + toFilePath + "】不存在");
-        }
-        if (!toFile.isFile()) {
-            throw new Exception("【" + toFilePath + "】不是文件");
-        }
-        FileInputStream fileInputStream = new FileInputStream(fromFile);
-        FileOutputStream fileOutputStream = new FileOutputStream(toFile);
-        int readByte;//读到的1个byte
-        while ((readByte = fileInputStream.read()) != -1) {
-            System.out.println(readByte);
-            fileOutputStream.write(readByte);
-        }
-        //fileInputStream.close();
-        //fileOutputStream.close();
-    }
+    public static byte[] inputStreamToByteArray(InputStream is) throws IOException {
+        if (is == null) throw new RuntimeException("InputStream不可为空");
+        if (is.available() > 1024 * 1024 * 50) throw new RuntimeException("数据量不可超过50MB");
 
-    public static void main(String[] args) throws Exception {
-        // copyFileToFile("d:/tmp/a.txt","d:/tmp/b.txt");
-        String p = "d:/tmp/a.txt";
-        String p2 = "d:/tmp/b.txt";
-        File file = new File(p);
-        File file2 = new File(p2);
-        FileInputStream fileInputStream = new FileInputStream(file);
-        FileOutputStream fileOutputStream = new FileOutputStream(file2);
-        int read = fileInputStream.read();
-        fileOutputStream.write(read);
-        fileOutputStream.close();
-        fileInputStream.close();
-        System.out.println(read);
-    }
-
-
-    /**
-     * 将输入流引入输出流
-     * fire1  ==input stream==> == output stream==>  file2
-     * |<---------------pipe------ -------->|
-     */
-    public static void copyFile(InputStream is, OutputStream os) throws Exception {
-        if (is == null) throw new Exception("is不可为空");
-        if (os == null) throw new Exception("os不可为空");
-        // do copy
-        byte[] cache = new byte[1024];
-        while (true) {
-            int read = is.read(cache);
-            if (read == -1) break;
-            os.write(cache, 0, read);
-        }
-        os.close();
-        is.close();
-    }
-
-    /**
-     * 输入流转字节数组
-     */
-    public static byte[] inputStreamToByteArray(InputStream is) throws Exception {
-        if (is == null) throw new Exception("is不可为空");
-        if (is.available() > Integer.MAX_VALUE) {
-            throw new Exception("InputStream过大，不可转为byte[]");
-        }
+        // convert
         byte[] bytes = new byte[is.available()];
         is.read(bytes);
         return bytes;

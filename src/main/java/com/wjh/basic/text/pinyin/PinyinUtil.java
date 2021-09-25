@@ -1,5 +1,8 @@
 package com.wjh.basic.text.pinyin;
 
+import com.wjh.basic.text.CharacterUtil;
+import com.wjh.basic.text.StringUtil;
+
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +16,7 @@ public class PinyinUtil {
 
     static {
         try {
-            pyMap = getPyMap();
+            pyMap = initPyMap();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -22,9 +25,9 @@ public class PinyinUtil {
     /**
      * 将汉字和拼音的对应关系从文件读入内存
      */
-    public static Map<String, String> getPyMap() throws Exception {
+    public static Map<String, String> initPyMap() throws Exception {
         Map<String, String> map = new HashMap<>();
-        String chinesePinyinMapFilePath = "./src/main/java/com/wjh/core/basic/text/pinyin/py.txt";
+        String chinesePinyinMapFilePath = "./src/main/java/com/wjh/basic/text/pinyin/py.txt";
         FileInputStream fileInputStream = new FileInputStream(chinesePinyinMapFilePath);
         byte[] bytes = new byte[fileInputStream.available()];
         fileInputStream.read(bytes);
@@ -41,9 +44,15 @@ public class PinyinUtil {
 
     /**
      * 获取汉字的拼音
+     * 最重要的，其它方法都直接或间接依赖他
+     *
+     * @return 非汉字字符，则原样返回
      */
     public static String getChineseCharacterPinyin(Character chineseCharacter) {
-        return pyMap.get(String.valueOf(chineseCharacter));
+        String c = String.valueOf(chineseCharacter);
+        if (CharacterUtil.isNotChineseCharacter(chineseCharacter)) return c;
+        if (!pyMap.containsKey(c)) return c;// TODO log it 表中没有收集的汉字
+        return pyMap.get(c);
     }
 
     /**
@@ -53,17 +62,18 @@ public class PinyinUtil {
     public static String getChineseSentencePinyin(String chineseSentence) {
         String pinyin = "";
         for (int i = 0; i < chineseSentence.length(); i++) {
-            pinyin += getChineseCharacterPinyin(chineseSentence.charAt(i)) + " ";
+            pinyin += getChineseCharacterPinyin(chineseSentence.charAt(i)) + CharacterUtil.SPACE;
         }
-        return pinyin;
+        return pinyin.substring(0, pinyin.length() - 1);
     }
 
     /**
      * 获取汉字拼音的首字母
      * 例如 输入：学，输出：x
      */
-    public static Character getChineseCharacterPinyinInitial(Character chineseCharacter) {
-        return getChineseCharacterPinyin(chineseCharacter).charAt(0);
+    public static String getChineseCharacterPinyinInitial(Character chineseCharacter) {
+        String chineseCharacterPinyin = getChineseCharacterPinyin(chineseCharacter);
+        return StringUtil.isBlank(chineseCharacterPinyin) ? "" : chineseCharacterPinyin.charAt(0) + "";
     }
 
     /**
@@ -76,14 +86,5 @@ public class PinyinUtil {
             pinyinInitial += getChineseCharacterPinyinInitial(chineseSentence.charAt(i));
         }
         return pinyinInitial;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getChineseSentencePinyin("汪简化"));
-        System.out.println(getChineseCharacterPinyinInitial('学'));
-        System.out.println(getChineseSentencePinyinInitial("王小米"));
-
-        HashMap hashMap = new HashMap();
-        System.out.println(hashMap.get("dd") == null);
     }
 }

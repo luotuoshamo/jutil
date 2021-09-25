@@ -4,32 +4,35 @@ import com.wjh.basic.text.StringUtil;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-
+import java.security.NoSuchAlgorithmException;
 
 public class Md5Util {
     /**
-     * md5编码
+     * 返回Md5编码结果
      *
-     * @return 32位的16进制字符（即Md5编码）
+     * @return 例如 e088bdc3ec7ecd2158e3a84e71d96c2e  共32个字符，
+     * 16个字符的MD5就是将头8个和尾8个字符去掉，即ec7ecd2158e3a84e
      */
-    public static String encode(String s) throws Exception {
-        if (StringUtil.isBlank(s)) return null;
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(s.getBytes());
-        // digest长度为16，本质是个整数
-        byte[] digest = md.digest();
-        return new BigInteger(1, digest).toString(16);
+    public static String getMD5(String s) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(s.getBytes());
+            byte[] digest = md.digest();// 摘要，16bytes的数组
+            System.out.println(md.digest().length);
+            return new BigInteger(1, digest).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
-     * 若干次MD5编码
+     * 指定次数的MD5编码
      */
-    public static String encode(String s, int times) throws Exception {
+    public static String getMD5(String s, int times) {
         if (StringUtil.isBlank(s)) return null;
         String res = s;
-        for (int i = 0; i < times; i++) {
-            res = encode(res);
-        }
+        for (int i = 0; i < times; i++) res = getMD5(res);
         return res;
     }
 }
