@@ -14,5 +14,4 @@ public class OSUtil {
             return OSTypeEnum.LINUX;
         return OSTypeEnum.UNKNOWN;
     }
-
 }

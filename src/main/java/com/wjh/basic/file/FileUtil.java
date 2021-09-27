@@ -9,6 +9,8 @@ import java.io.*;
  * 所有地址都用绝对地址
  */
 public class FileUtil {
+    public static final String SEPARATOR = File.separator;
+    public static final String PATH_SEPARATOR = File.pathSeparator;
     public static byte[] block1KB = new byte[1024];
     public static byte[] block1MB = new byte[1024 * 1024];
 
@@ -31,7 +33,7 @@ public class FileUtil {
             //清空文件夹中的内容
             for (String subFileName : subFileNames) {
                 String absolutePath = file.getAbsolutePath();
-                absolutePath = absolutePath.endsWith("/") || absolutePath.endsWith("\\") ? absolutePath : absolutePath + "/";
+                if (!absolutePath.endsWith(SEPARATOR)) absolutePath += SEPARATOR;
                 String subFileAbsolutePath = absolutePath + subFileName;
                 delete(subFileAbsolutePath);
             }
@@ -106,7 +108,7 @@ public class FileUtil {
         if (subFiles == null || subFiles.length == 0) return;
 
         String toAbsolutePath = toDir.getAbsolutePath();
-        toAbsolutePath = toAbsolutePath.endsWith("/") || toAbsolutePath.endsWith("\\") ? toAbsolutePath : toAbsolutePath + "/";
+        if (!toAbsolutePath.endsWith(SEPARATOR)) toAbsolutePath += SEPARATOR;
 
         for (File subFile : subFiles) {
             if (subFile.isDirectory()) {// 在目的地建同名文件夹，在复制
