@@ -1,7 +1,7 @@
 package com.wjh.basic.text.idCard;
 
 import com.wjh.common.enums.GenderEnum;
-import com.wjh.common.enums.ProvinceEnum;
+import com.wjh.area.division.ProvinceEnum;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.wjh.common.enums;
+package com.wjh.area.division;
 
 /**
  * 中国省份 33个

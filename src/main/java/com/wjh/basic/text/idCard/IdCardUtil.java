@@ -2,7 +2,7 @@ package com.wjh.basic.text.idCard;
 
 import com.wjh.basic.text.StringUtil;
 import com.wjh.common.enums.GenderEnum;
-import com.wjh.common.enums.ProvinceEnum;
+import com.wjh.area.division.ProvinceEnum;
 
 /**
  * 该类只支持18身份证号码
