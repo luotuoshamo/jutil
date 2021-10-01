@@ -1,15 +1,12 @@
 package com.wjh.area.division;
 
-import com.alibaba.fastjson.JSON;
 import com.wjh.basic.text.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DivisionUtil {
     private static List<Division> divisions = new ArrayList<>();
