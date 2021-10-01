@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class PinyinUtil {
     // {中:zhong, 好:hao, ...}
-    static Map<String, String> pyMap;
+    private static Map<String, String> pyMap;
 
     static {
         try {
@@ -20,6 +20,10 @@ public class PinyinUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static Map<String, String> geyPyMap() {
+        return pyMap;
     }
 
     /**

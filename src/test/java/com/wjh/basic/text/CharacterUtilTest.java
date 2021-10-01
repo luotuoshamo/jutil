@@ -33,14 +33,13 @@ public class CharacterUtilTest {
 
     @Test
     public void isNormalSpace() {
-        Assert.assertTrue(CharacterUtil.isNotSpace(' '));
+        Assert.assertTrue(CharacterUtil.isNormalSpace(' '));
     }
 
     @Test
     public void isNbspSpace() {
         char c = 160;
         Assert.assertTrue(CharacterUtil.isNbspSpace(c));
-
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.wjh.basic.text.pinyin;
 
-import com.sun.deploy.pings.Pings;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +10,7 @@ public class PinyinUtilTest {
     @Before
     public void setUp() throws Exception {
         PinyinUtil.initPyMap();
+        //System.out.println(PinyinUtil.geyPyMap());
     }
 
     @After
@@ -27,7 +27,7 @@ public class PinyinUtilTest {
     @Test
     public void getChineseSentencePinyin() {
         String chineseSentencePinyin = PinyinUtil.getChineseSentencePinyin("今天下雪，爸爸");
-        Assert.assertEquals(chineseSentencePinyin, "jin tian xia xue ， ba ba");
+        Assert.assertEquals( "jin tian xia xue ， ba ba", chineseSentencePinyin);
     }
 
     @Test
