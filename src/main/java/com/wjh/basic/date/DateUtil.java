@@ -8,13 +8,13 @@ public class DateUtil {
     /**
      * 所有日期、时间都用该格式
      */
-    public final static String DATE_DEFAULT_MASK = "yyyy-MM-dd";
-    public final static String TIME_DEFAULT_MASK = "HH:mm:ss";
-    public final static String DATE_TIME_DEFAULT_MASK = "yyyy-MM-dd HH:mm:ss";
+    public final static String DEFAULT_MASK_DATE = "yyyy-MM-dd";
+    public final static String DEFAULT_MASK_TIME = "HH:mm:ss";
+    public final static String DEFAULT_MASK_DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 
-    public final static SimpleDateFormat dateDefaultFormat = new SimpleDateFormat(DATE_DEFAULT_MASK);
-    public final static SimpleDateFormat timeDefaultFormat = new SimpleDateFormat(TIME_DEFAULT_MASK);
-    public final static SimpleDateFormat dateDefaultTimeFormat = new SimpleDateFormat(DATE_TIME_DEFAULT_MASK);
+    public final static SimpleDateFormat dateDefaultFormat = new SimpleDateFormat(DEFAULT_MASK_DATE);
+    public final static SimpleDateFormat timeDefaultFormat = new SimpleDateFormat(DEFAULT_MASK_TIME);
+    public final static SimpleDateFormat dateDefaultTimeFormat = new SimpleDateFormat(DEFAULT_MASK_DATE_TIME);
 
 
     /**
@@ -68,5 +68,21 @@ public class DateUtil {
      */
     public static Integer getDay(Date d) {
         return d.getDate();
+    }
+
+    /**
+     * 当前时间
+     */
+    public static Date nowDate(){
+        return new Date();
+    }
+
+    /**
+     * 当前时间
+     * @param mask
+     * @return String
+     */
+    public static String nowDateString(String mask){
+        return dateToString(nowDate(), mask);
     }
 }
