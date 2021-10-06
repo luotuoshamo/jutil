@@ -22,7 +22,11 @@ public class StringUtil {
      * "null"    true    String.valueOf(obj)如果obj是null就转成“null”
      */
     public static boolean isBlank(String s) {
-        return s == null || deepTrim(s).isEmpty() || "null".equalsIgnoreCase(s);
+        return s == null || deepTrim(s).isEmpty();
+    }
+
+    public static boolean isNotBlank(String s) {
+        return !isBlank(s);
     }
 
     /**
