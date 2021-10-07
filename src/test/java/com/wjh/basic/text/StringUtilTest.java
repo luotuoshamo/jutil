@@ -43,6 +43,26 @@ public class StringUtilTest {
     }
 
     @Test
-    public void constainsIgnoreCase() {
+    public void isNotBlank() {
+        Assert.assertTrue(StringUtil.isNotBlank("a"));
+        Assert.assertFalse(StringUtil.isNotBlank("   "));
+    }
+
+    @Test
+    public void containsIgnoreCase() {
+        boolean b = StringUtil.containsIgnoreCase("ABCDeFG", "cdE");
+        Assert.assertTrue(b);
+    }
+
+    @Test
+    public void replaceLast() {
+        String s = "12cd34cd56cd78cd00";
+        String s2 = StringUtil.replaceLast(s, "cd", "xx");
+        Assert.assertEquals("12cd34cd56cd78xx00", s2);
+    }
+
+    @Test
+    public void reverse() {
+        Assert.assertEquals("CBA", StringUtil.reverse("ABC"));
     }
 }

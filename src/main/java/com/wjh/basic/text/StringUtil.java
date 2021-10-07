@@ -88,8 +88,33 @@ public class StringUtil {
     /**
      * 判断s中是否包含contain,忽略大小写
      */
-    public static boolean constainsIgnoreCase(String s, String contain) {
+    public static boolean containsIgnoreCase(String s, String contain) {
         if (isBlank(s) || isBlank(contain)) return false;
         return s.toLowerCase().contains(contain.toLowerCase());
+    }
+
+    /**
+     * 去掉最后一个，jdk有String.replaceFirst但五String.replaceLast
+     * 例如s=12cd67cd01cd,replacement=cd
+     */
+    public static String replaceLast(String s, String target, String replacement) {
+        if (isBlank(s)) return s;
+        if (replacement == null) return s;
+
+        String r = reverse(s).replaceFirst(reverse(target), reverse(replacement));
+        return reverse(r);
+    }
+
+    /**
+     * 倒置字符串
+     *
+     * @param s
+     * @return 新字符串，不改变原来的字符串
+     */
+    public static String reverse(String s) {
+        if (isBlank(s) || s.length() == 1) return s;
+        String reversedStr = "";
+        for (int i = s.length() - 1; i >= 0; i--) reversedStr += s.charAt(i);
+        return reversedStr;
     }
 }
