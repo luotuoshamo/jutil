@@ -25,6 +25,7 @@ public class CharacterUtil {
      * 是否是汉字字符
      */
     public static boolean isChineseCharacter(Character c) {
+        if (c == null) return false;
         String s = String.valueOf(c);
         if (StringUtil.isBlank(s)) return false;
         String reg = "^[\\u4e00-\\u9fa5]+$";
@@ -39,23 +40,39 @@ public class CharacterUtil {
      * 是否是数字字符
      */
     public static boolean isNumberCharacter(Character c) {
+        if (c == null) return false;
         String s = String.valueOf(c);
         if (StringUtil.isBlank(s)) return false;
         String reg = "^[0-9]+$";
         return s.matches(reg);
     }
 
+    /**
+     * 是否是小写字母
+     */
     public static boolean isLowerCaseLetter(Character c) {
+        if (c == null) return false;
         String s = String.valueOf(c);
         if (StringUtil.isBlank(s)) return false;
         String reg = "^[a-z]+$";
         return s.matches(reg);
     }
 
+    /**
+     * 是否是大写字母
+     */
     public static boolean isUpperCaseLetter(Character c) {
+        if (c == null) return false;
         String s = String.valueOf(c);
         if (StringUtil.isBlank(s)) return false;
         String reg = "^[A-Z]+$";
         return s.matches(reg);
+    }
+
+    /**
+     * 是否是字母
+     */
+    public static boolean isLatter(Character c) {
+        return isLowerCaseLetter(c) || isUpperCaseLetter(c);
     }
 }

@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 /**
  * 浏览器收藏夹-只能解析只有一层文件夹的收藏夹，对于文件夹中有文件夹的情况不支持
  */
@@ -33,6 +34,7 @@ public class BookmarkUtil {
      * -----<DT><A HREF="https://www.pinduoduo.com/" ADD_DATE="1633579265" ICON="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAACp0lEQVQ4jT2SX0iVdxjHv8/vz3l9z6seNzUFMyt2YTRTV7K0rbbWVkJtCLIGLbpadwoOFkVddVFdxOguigi6KJoLspsxCPavbCsWYpkbm2ejDCrNjmXn5Pu+v9/z7ELZ5+pz8fnefSne8L4ABEApEAECz4sCApGQImFhBkCAYccEiNYyV+Q0JWspDEkYEFEGpaKkjqxBNgvvhaAPNDSxwM/M4M3V9FmvlOb5wSSTYhFfKEhrK3p7pFjifF4yGSbS++uWiojq+di91W42vYMd3cnkQzU7KyK09SPevFG3tWDDejFGJv5Fmur9VbXo7Aj2Dbw6eUbX17mRUWx5T08XWKvM0cN+aprG/4wvfCtbP9RBIHfG9L6aertnl/tlWIVl5t0uHYZ8acjf+wOe/d0x296mm5spdbh/37zd4X6+ZpghU09dVaVZ1picPe+v/mh277Q7utVrr7vrN0pf9OnNG826dsqGbDT7VAlpmX2uMwFyuXT4t3TqCerrEViOyqihgZ/OuJ+usTXCLv1rgpnocdPq6OsjvvBMReUUZJJTZ6WujqKslEcykVe2LOjb62/doupqVVNb/PKgHijLqRWNhlTp6g9BVyeLk6pc/M2V9Obv2c8/hdGelAlDrFzhRkaT4V+NaBsPfc9r1wTbPjAdbT6djy8ORscOYT5JbtzUQWCXN1I2TEfH48HLXoQml7VIHAu74JPtVB5RuQ2iClZWL28UpVz+b370zL+Yi4e+Q8aqIDDeORgD0aXBKygWowP9AMQY09oSj97xhZfF0+dgLVVWQMSnjv5ZsorEg0BKQWk3PWXXran8qp+8vDh+Irk9ZpbUioCYRQQA5WveWDzmAsbI3ByMgVJIUqqI4DwRLdQADPOCCYEASJIijCAMAUIriQNAhP8H/wEk302miuBtcgAAAABJRU5ErkJggg==">拼多多 新电商开创者</A>
      * </DL><p>
      */
+    @Deprecated
     public static Bookmark parse(File bookmarkHtmlFile) throws IOException {
         if (bookmarkHtmlFile == null || !bookmarkHtmlFile.isFile() || !bookmarkHtmlFile.exists()) {
             return null;
@@ -64,7 +66,6 @@ public class BookmarkUtil {
 
         // pages
         List<Page> pages = getPagesFromDlp(bk);
-
         Bookmark bookmark = new Bookmark(pages, folders);
         return bookmark;
     }
@@ -134,6 +135,8 @@ public class BookmarkUtil {
             if (line == null) break;
             lines.append(line);
         }
+        if (br != null) br.close();
+        if (fr != null) fr.close();
         return lines.toString();
     }
 }

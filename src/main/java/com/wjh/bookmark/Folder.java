@@ -3,6 +3,7 @@ package com.wjh.bookmark;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class Folder {
     private String name;// 即dlp的text
     private List<Page> pages = new ArrayList<>();

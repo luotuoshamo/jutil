@@ -1,7 +1,7 @@
 package com.wjh.bookmark;
 
 import java.util.List;
-
+@Deprecated
 public class Bookmark {
     private List<Page> pages;
     private List<Folder> folders;

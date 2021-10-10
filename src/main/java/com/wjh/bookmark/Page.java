@@ -1,5 +1,6 @@
 package com.wjh.bookmark;
 
+@Deprecated
 public class Page {
     private String name;
     private String href;
