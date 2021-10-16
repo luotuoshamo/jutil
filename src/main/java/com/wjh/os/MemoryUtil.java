@@ -4,6 +4,9 @@ import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 
+/**
+ * 内存
+ */
 public class MemoryUtil {
     public static long total() {
         OperatingSystemMXBean memory = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
