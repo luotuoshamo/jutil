@@ -28,6 +28,7 @@ public class NumberUtilTest extends TestCase {
         assertEquals("人民币壹仟肆佰零玖圆伍角", NumberUtil.getMoneyUppercase("1409.50"));
         assertEquals("人民币陆仟零柒圆壹角肆分", NumberUtil.getMoneyUppercase("6007.14"));
         assertEquals("人民币壹拾万柒仟圆伍角叁分", NumberUtil.getMoneyUppercase("107000.53"));
+        assertEquals("人民币壹仟陆佰捌拾圆叁角贰分", NumberUtil.getMoneyUppercase("1680.32"));
         assertEquals("人民币壹万陆仟肆佰零玖圆零贰分", NumberUtil.getMoneyUppercase("16409.02"));
         assertEquals("人民币叁佰贰拾伍圆零肆分", NumberUtil.getMoneyUppercase("325.04"));
     }
