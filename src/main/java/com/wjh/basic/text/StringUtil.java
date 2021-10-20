@@ -78,14 +78,14 @@ public class StringUtil {
      */
     @Deprecated
     public static String replaceAll(String s, String target, String replacement) {
-        /*if (isBlank(s)) return s;
-        if (target == null) return s;
+        if (isBlank(s)) return s;
+        /* if (target == null) return s;
         while (true) {
             if (s.indexOf(target) == -1) break;
             s = s.replace(target, replacement);
         }
         return s;*/
-        return s.replace(target,replacement);
+        return s.replace(target, replacement);
     }
 
     /**
