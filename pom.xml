@@ -6,7 +6,7 @@
 
     <groupId>com.wjh</groupId>
     <artifactId>jutil</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>Java工具集</description>
     <build>
         <plugins>

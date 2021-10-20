@@ -39,10 +39,6 @@ public class StringUtilTest {
     }
 
     @Test
-    public void replaceAll() {
-    }
-
-    @Test
     public void isNotBlank() {
         Assert.assertTrue(StringUtil.isNotBlank("a"));
         Assert.assertFalse(StringUtil.isNotBlank("   "));
