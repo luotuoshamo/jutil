@@ -126,13 +126,16 @@ public class FileUtil {
     /**
      * 输入流转字节数组,只适用50MB的数据
      */
-    public static byte[] inputStreamToByteArray(InputStream is) throws IOException {
-        if (is == null) throw new RuntimeException("InputStream不可为空");
-        if (is.available() > 1024 * 1024 * 50) throw new RuntimeException("数据量不可超过50MB");
+    public static byte[] inputStreamToByteArray(InputStream is) {
+        try {
+            if (is == null) throw new RuntimeException("is不可为空");
 
-        // convert
-        byte[] bytes = new byte[is.available()];
-        is.read(bytes);
-        return bytes;
+            // convert
+            byte[] bytes = new byte[is.available()];
+            is.read(bytes);
+            return bytes;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
