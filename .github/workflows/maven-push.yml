@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Mirror the Github organization repos to Gitee.
-        uses: Yikun/hub-mirror-action@master
+        uses: echo 1
         #代表我们用的仓库，不用同步
         debug: true
         with:
