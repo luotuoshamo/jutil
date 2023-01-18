@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Mirror the Github organization repos to Gitee.
-        uses: echo 1
+        uses: https://github.com/Yikun/hub-mirror-action/blob/master/entrypoint.sh
         #代表我们用的仓库，不用同步
         debug: true
         with:
