@@ -3,7 +3,7 @@
 
 name: sync to gitee when push master
 
-  on:[push]
+on: push
 
 jobs:
   build:
