@@ -12,6 +12,7 @@ jobs:
       - name: Mirror the Github organization repos to Gitee.
         uses: Yikun/hub-mirror-action@master
         #代表我们用的仓库，不用同步
+        debug: true
         with:
           # 必选，需要同步的Github用户（源）
           src: github/topicstudy
