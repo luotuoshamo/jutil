@@ -1,5 +1,10 @@
 package cn.topicstudy.basic.text;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * 字符串工具类
  */
@@ -115,5 +120,32 @@ public class StringUtil {
         String reversedStr = "";
         for (int i = s.length() - 1; i >= 0; i--) reversedStr += s.charAt(i);
         return reversedStr;
+    }
+
+    /**
+     * byte[] 是01串，无编码
+     */
+    public static byte[] strToBytes(String s, String charset) {
+        if (isBlank(s)) {
+            return null;
+        }
+
+        try {
+            return s.getBytes(charset);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String bytesToStr(byte[] bytes, String charset) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+
+        try {
+            return new String(bytes, charset);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
     }
 }
