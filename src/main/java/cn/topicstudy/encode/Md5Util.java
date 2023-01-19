@@ -1,5 +1,6 @@
 package cn.topicstudy.encode;
 
+import cn.topicstudy.basic.file.FileUtil;
 import cn.topicstudy.basic.text.StringUtil;
 
 import java.io.FileInputStream;

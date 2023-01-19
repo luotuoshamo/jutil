@@ -12,6 +12,7 @@ import java.util.Map;
 public class MapUtilTest {
     private Map<String, Object> str_obj_map = new HashMap();
     private User user = new User();
+    private String queryStr = "k1=v1&k2=v2";
 
     @Before
     public void setUp() {
@@ -51,5 +52,23 @@ public class MapUtilTest {
         Assert.assertEquals(map.get("id"), "2");
         Assert.assertEquals(map.get("pwd"), "888");
         Assert.assertEquals(map.get("gender"), GenderEnum.FEMALE);
+    }
+
+    @Test
+    public void queryStr2Map() {
+        Map<String, String> map = MapUtil.queryStr2Map(queryStr);
+        Assert.assertNotNull(map);
+        Assert.assertEquals(map.get("k1"), "v1");
+        Assert.assertEquals(map.get("k2"), "v2");
+    }
+
+    @Test
+    public void map2QueryStr() {
+        HashMap<String, String> map = new HashMap() {{
+            put("k1", "v1");
+            put("k2", "v2");
+        }};
+        String queryStr = MapUtil.map2QueryStr(map);
+        Assert.assertEquals(queryStr, "k1=v1&k2=v2");
     }
 }

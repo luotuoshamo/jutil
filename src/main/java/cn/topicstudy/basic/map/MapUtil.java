@@ -1,5 +1,7 @@
 package cn.topicstudy.basic.map;
 
+import cn.topicstudy.basic.text.StringUtil;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -43,7 +45,7 @@ public class MapUtil {
     /**
      * bean转map
      */
-    public static <T> Map<String, Object> beanToMap( T beanInstance,Class<T> beanClass) throws Exception {
+    public static <T> Map<String, Object> beanToMap(T beanInstance, Class<T> beanClass) throws Exception {
         if (beanClass == null || beanInstance == null) return null;
 
         Map<String, Object> map = new HashMap<>();
@@ -57,5 +59,41 @@ public class MapUtil {
         }
 
         return map;
+    }
+
+    /**
+     * k1=v1&k2=v2  * @param queryStr  * @return must not null
+     */
+    public static Map<String, String> queryStr2Map(String queryStr) {
+        Map<String, String> map = new HashMap<>();
+        if (StringUtil.isBlank(queryStr)) {
+            return map;
+        }
+        String[] kvList = queryStr.split("&");
+        if (kvList == null || kvList.length == 0) {
+            return map;
+        }
+        for (String kv : kvList) {
+            String[] kvArr = kv.split("=");
+            String k = kvArr[0];
+            String v = kvArr[1];
+            map.put(k, v);
+        }
+        return map;
+    }
+
+    /**
+     * * @param map  * @return must not null
+     */
+    public static String map2QueryStr(Map<String, String> map) {
+        String queryStr = "";
+        if (map == null || map.isEmpty()) {
+            return queryStr;
+        }
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String kv = entry.getKey() + "=" + entry.getValue();
+            queryStr = queryStr + "&" + kv;
+        }
+        return queryStr.substring(1);
     }
 }
