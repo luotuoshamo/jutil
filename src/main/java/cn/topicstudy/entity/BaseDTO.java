@@ -9,7 +9,7 @@ import java.util.Map;
 @Data
 public class BaseDTO implements Serializable {
     // 防止序列化问题
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     Map<String, String> extMap = new HashMap<>();
 }
