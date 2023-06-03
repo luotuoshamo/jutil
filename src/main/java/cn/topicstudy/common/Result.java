@@ -3,6 +3,7 @@ package cn.topicstudy.common;
 /**
  * 统一格式的结果
  */
+@Deprecated
 public class Result {
     private Boolean success;
     private String msg;

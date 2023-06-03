@@ -30,4 +30,25 @@ public class CommonResult<T> extends BaseDTO {
      */
     private Map<String, String> failMap;
     private List<String> successList;
+
+    public static <T> CommonResult ofSuccess(T data) {
+        CommonResult commonResult = new CommonResult();
+        commonResult.setSuccess(true);
+        commonResult.setData(data);
+        return commonResult;
+    }
+
+    public static CommonResult ofSuccess() {
+        CommonResult commonResult = new CommonResult();
+        commonResult.setSuccess(true);
+        return commonResult;
+    }
+
+    public static CommonResult ofError(String errorCode, String errorMsg) {
+        CommonResult commonResult = new CommonResult();
+        commonResult.setSuccess(false);
+        commonResult.setErrorCode(errorCode);
+        commonResult.setErrorMsg(errorMsg);
+        return commonResult;
+    }
 }
