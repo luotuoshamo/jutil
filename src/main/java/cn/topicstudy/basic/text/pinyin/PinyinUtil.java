@@ -18,7 +18,7 @@ public class PinyinUtil {
         try {
             pyMap = initPyMap();
         } catch (Exception e) {
-            e.printStackTrace();
+          throw new RuntimeException(e);
         }
     }
 

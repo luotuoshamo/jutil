@@ -7,11 +7,11 @@ public class ThreadUtil {
      * @param ms
      * @param thread
      */
-    public static void sleep(long ms, Thread thread) {
+    public static void sleepQuiet(long ms, Thread thread) {
         try {
             thread.sleep(ms);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

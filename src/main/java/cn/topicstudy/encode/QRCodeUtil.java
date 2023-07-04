@@ -42,7 +42,7 @@ public class QRCodeUtil {
             try {
                 MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
 

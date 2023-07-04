@@ -12,7 +12,7 @@ public class DivisionUtilTest {
 
     @Before
     public void setUp() throws Exception {
-        DivisionUtil.initDivisions();
+//        DivisionUtil.initDivisions();
     }
 
     @After

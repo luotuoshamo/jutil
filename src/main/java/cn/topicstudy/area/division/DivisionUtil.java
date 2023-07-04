@@ -20,8 +20,16 @@ public class DivisionUtil {
         initDivisions();
     }
 
+    static {
+        try {
+            initDivisions();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void initDivisions() throws IOException {
-        FileReader fr = new FileReader("./src/main/java/com/wjh/area/division/chinaDivision2020.txt");
+        FileReader fr = new FileReader("./src/main/java/cn/topicstudy/area/division/chinaDivision2020.txt");
         BufferedReader br = new BufferedReader(fr);
         while (true) {
             String line = br.readLine();
@@ -40,7 +48,7 @@ public class DivisionUtil {
         //fw.flush();//否则write buffer中有残留，导致json文件不完整
     }
 
-    public static List<Division> allDivisions(){
+    public static List<Division> allDivisions() {
         return divisions;
     }
 
