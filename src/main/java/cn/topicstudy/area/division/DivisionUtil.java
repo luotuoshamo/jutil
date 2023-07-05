@@ -2,11 +2,12 @@ package cn.topicstudy.area.division;
 
 import cn.topicstudy.basic.text.StringUtil;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 public class DivisionUtil {
     private static List<Division> divisions = new ArrayList<>();
@@ -29,18 +30,31 @@ public class DivisionUtil {
     }
 
     public static void initDivisions() throws IOException {
-        FileReader fr = new FileReader("./src/main/java/cn/topicstudy/area/division/chinaDivision2020.txt");
-        BufferedReader br = new BufferedReader(fr);
-        while (true) {
-            String line = br.readLine();
-            if (line == null) break;
-            line = StringUtil.deepTrim(line);
-            String[] arr = line.split("\t");
-            String divisionCode = arr[0].trim();
-            String divisionName = arr[1].trim();
-            Division division = new Division(divisionCode, divisionName, getDivisionTypeByCode(divisionCode));
+//        ResourceBundle bundle = ResourceBundle.getBundle("cn/topicstudy/area/division/chinaDivision2020");
+//        System.out.println(bundle);
+//        System.out.println(bundle.getString("120119"));
+
+        InputStream inputStream = DivisionUtil.class.getClassLoader().getResourceAsStream("cn/topicstudy/area/division/chinaDivision2020.properties");
+        Properties properties = new Properties();
+        properties.load(inputStream);
+        Set<String> propertyNames = properties.stringPropertyNames();
+        for (String propertyName : propertyNames) {
+            String divisionCode = propertyName;
+            Division division = new Division(divisionCode, properties.getProperty(propertyName), getDivisionTypeByCode(divisionCode));
             divisions.add(division);
         }
+//        FileReader fr = new FileReader(filePath);
+//        BufferedReader br = new BufferedReader(fr);
+//        while (true) {
+//            String line = br.readLine();
+//            if (line == null) break;
+//            line = StringUtil.deepTrim(line);
+//            String[] arr = line.split("\t");
+//            String divisionCode = arr[0].trim();
+//            String divisionName = arr[1].trim();
+//            Division division = new Division(divisionCode, divisionName, getDivisionTypeByCode(divisionCode));
+//            divisions.add(division);
+//        }
 
         //String s = JSON.toJSONString(divisions);
         //FileWriter fw = new FileWriter("./src/main/java/com/wjh/area/division/chinaDivision2020.json");
