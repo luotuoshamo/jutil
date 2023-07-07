@@ -1,11 +1,8 @@
 # 介绍
 jutil收集了java开发常用工具
 
-# 依赖
-only JDK8
-
 # 使用
-1. 依赖
+
 ```xml
 <dependency>
     <groupId>io.github.topicstudy</groupId>
@@ -13,6 +10,3 @@ only JDK8
     <version>2.1.1</version>
 </dependency>
 ```
-
-# 联系我
-topicstudy

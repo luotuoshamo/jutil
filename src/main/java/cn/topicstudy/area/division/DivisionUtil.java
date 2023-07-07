@@ -2,8 +2,10 @@ package cn.topicstudy.area.division;
 
 import cn.topicstudy.basic.text.StringUtil;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +38,9 @@ public class DivisionUtil {
 
         InputStream inputStream = DivisionUtil.class.getClassLoader().getResourceAsStream("cn/topicstudy/area/division/chinaDivision2020.properties");
         Properties properties = new Properties();
-        properties.load(inputStream);
+        // 不用reader的话中文会乱码
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        properties.load(bufferedReader);
         Set<String> propertyNames = properties.stringPropertyNames();
         for (String propertyName : propertyNames) {
             String divisionCode = propertyName;
