@@ -1,4 +1,4 @@
-package cn.topicstudy.jutil.basic.exception;
+package cn.topicstudy.jutil.basic.error;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

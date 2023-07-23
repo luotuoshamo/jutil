@@ -1,12 +1,13 @@
-package cn.topicstudy.jutil.basic.exception;
+package cn.topicstudy.jutil.error;
 
 import java.text.MessageFormat;
 
-public class BaseRuntimeException extends RuntimeException {
+public class TSChatException extends RuntimeException {
+
     String errorCode;
     String errorMsg;
 
-    public BaseRuntimeException(BaseErrorCodeEnum errorCodeEnum, Object... params) {
+    public TSChatException(TSChatErrorCodeEnum errorCodeEnum, Object... params) {
         super(errorCodeEnum.getErrorMsg());
         String errorMsg = errorCodeEnum.getErrorMsg();
         String newErrorMsg = MessageFormat.format(errorMsg, params);
