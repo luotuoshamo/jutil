@@ -44,6 +44,7 @@ public class DateUtil {
 
     /**
      * 给date加上seconds秒
+     * TODO fix:超过int范围
      */
     public static Date addSeconds(Date date, Integer seconds) {
         return new Date(date.getTime() + seconds * 1000);

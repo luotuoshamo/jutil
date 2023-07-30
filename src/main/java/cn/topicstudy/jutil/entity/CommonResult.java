@@ -2,6 +2,7 @@ package cn.topicstudy.jutil.entity;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class CommonResult<T> extends BaseDTO {
      * 服务提供方给调用方的重试信号，为true表示需要调用方来重试
      */
     private boolean needRetry;
-    private int total;
+    private long total;
     private T data;
     /**
      * 批处理时：
@@ -42,6 +43,28 @@ public class CommonResult<T> extends BaseDTO {
         CommonResult commonResult = new CommonResult();
         commonResult.setSuccess(true);
         return commonResult;
+    }
+
+    /**
+     * 分页查询结果
+     *
+     * @return
+     */
+    public static <T> CommonResult ofSuccessForPage(long total, T data) {
+        CommonResult commonResult = new CommonResult();
+        commonResult.setSuccess(true);
+        commonResult.setTotal(total);
+        commonResult.setData(data);
+        return commonResult;
+    }
+
+    /**
+     * 场景：分页查询为查到数据
+     *
+     * @return
+     */
+    public static CommonResult ofSuccessForPageEmptyResult() {
+        return ofSuccessForPage(0, new ArrayList<>());
     }
 
     public static CommonResult ofError(String errorCode, String errorMsg) {
