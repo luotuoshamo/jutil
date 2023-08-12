@@ -1,19 +1,23 @@
 package cn.topicstudy.jutil.area.division;
 
 enum DivisionTypeEnum {
-   PROVINCE("省"), CITY("市"), DISTRICT("区");
+    PROVINCE("PROVINCE", "省"),
+    CITY("CITY", "市"),
+    DISTRICT("DISTRICT", "区");
 
-   private String desc;
+    private String code;
+    private String desc;
 
-   public String getDesc() {
-      return desc;
-   }
+    public String getCode() {
+        return code;
+    }
 
-   public void setDesc(String desc) {
-      this.desc = desc;
-   }
+    public String getDesc() {
+        return desc;
+    }
 
-   DivisionTypeEnum(String desc) {
-      this.desc = desc;
-   }
+    DivisionTypeEnum(String code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
 }

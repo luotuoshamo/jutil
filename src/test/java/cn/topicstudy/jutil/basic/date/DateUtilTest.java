@@ -40,6 +40,10 @@ public class DateUtilTest {
         Date date = DateUtil.addSeconds(this.date, oneDayInSeconds);
         String s = DateUtil.dateToString(date, mask);
         Assert.assertEquals(s, "2020-12-06 12:09:35");
+
+        // 加10年 6/10/2030, 5:48:38 PM
+        s = DateUtil.dateToString(DateUtil.addSeconds(this.date, 10*365*24*60*60), mask);
+        Assert.assertEquals(s, "2030-12-03 12:09:35");
     }
 
     @Test

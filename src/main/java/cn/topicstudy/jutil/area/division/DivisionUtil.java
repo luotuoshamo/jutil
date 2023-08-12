@@ -14,15 +14,6 @@ import java.util.Set;
 public class DivisionUtil {
     private static List<Division> divisions = new ArrayList<>();
 
-    /**
-     * 解析 chinaDivision2020.txt
-     *
-     * @param args
-     */
-    public static void main(String[] args) throws Exception {
-        initDivisions();
-    }
-
     static {
         try {
             initDivisions();
@@ -32,10 +23,6 @@ public class DivisionUtil {
     }
 
     public static void initDivisions() throws IOException {
-//        ResourceBundle bundle = ResourceBundle.getBundle("cn/topicstudy/area/division/chinaDivision2020");
-//        System.out.println(bundle);
-//        System.out.println(bundle.getString("120119"));
-
         InputStream inputStream = DivisionUtil.class.getClassLoader().getResourceAsStream("cn/topicstudy/jutil/area/division/chinaDivision2020.properties");
         Properties properties = new Properties();
         // 不用reader的话中文会乱码
@@ -47,23 +34,6 @@ public class DivisionUtil {
             Division division = new Division(divisionCode, properties.getProperty(propertyName), getDivisionTypeByCode(divisionCode));
             divisions.add(division);
         }
-//        FileReader fr = new FileReader(filePath);
-//        BufferedReader br = new BufferedReader(fr);
-//        while (true) {
-//            String line = br.readLine();
-//            if (line == null) break;
-//            line = StringUtil.deepTrim(line);
-//            String[] arr = line.split("\t");
-//            String divisionCode = arr[0].trim();
-//            String divisionName = arr[1].trim();
-//            Division division = new Division(divisionCode, divisionName, getDivisionTypeByCode(divisionCode));
-//            divisions.add(division);
-//        }
-
-        //String s = JSON.toJSONString(divisions);
-        //FileWriter fw = new FileWriter("./src/main/java/com/wjh/area/division/chinaDivision2020.json");
-        //fw.write(s);
-        //fw.flush();//否则write buffer中有残留，导致json文件不完整
     }
 
     public static List<Division> allDivisions() {

@@ -26,6 +26,7 @@ public class CommonAssertUtil {
      */
     public static void throwException(boolean condition, String errorCode, String errorMsg) {
         if (condition) {
+            // 公司内部的下游服务报的错误码可以直接透传，但其他公司的错误码需要将原错误码前加上对应公司标识再透传
             throw new BizException(errorCode, errorMsg);
         }
     }

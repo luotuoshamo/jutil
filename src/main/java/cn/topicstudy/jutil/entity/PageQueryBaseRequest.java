@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PageQueryBaseRequest extends BaseDTO {
-    private boolean isPage = false;
+    private boolean isPage;
     private int currentPage;
     private int pageSize;
 }

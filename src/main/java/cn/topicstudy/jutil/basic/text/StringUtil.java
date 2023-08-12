@@ -1,5 +1,7 @@
 package cn.topicstudy.jutil.basic.text;
 
+import com.alibaba.fastjson.JSON;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -143,6 +145,22 @@ public class StringUtil {
             return new String(bytes, charset);
         } catch (UnsupportedEncodingException e) {
             return null;
+        }
+    }
+
+    /**
+     * 场景：捕获异常的地方打日志时为了防止JSON异常
+     * @param o
+     * @return
+     */
+    public static String objectToStrQuiet(Object o) {
+        if (o == null) {
+            return null;
+        }
+        try {
+            return JSON.toJSONString(o);
+        } catch (Throwable t) {
+            return o.toString();
         }
     }
 }
