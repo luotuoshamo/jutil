@@ -18,7 +18,7 @@ public class CommonAssertUtil {
     }
 
     /**
-     * 用于调下游服务时传递下游服务返的errorCode
+     * 传递错误码时需要
      *
      * @param condition
      * @param errorCode

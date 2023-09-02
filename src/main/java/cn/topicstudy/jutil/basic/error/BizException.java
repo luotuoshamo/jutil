@@ -10,7 +10,7 @@ public class BizException extends RuntimeException {
     String errorMsg;
 
     public BizException(BaseErrorCodeEnum errorCodeEnum, Object... params) {
-        super(errorCodeEnum.getErrorMsg());
+        super(MessageFormat.format(errorCodeEnum.getErrorMsg(), params));
         String errorMsg = errorCodeEnum.getErrorMsg();
         String newErrorMsg = MessageFormat.format(errorMsg, params);
         this.errorCode = errorCodeEnum.getErrorCode();

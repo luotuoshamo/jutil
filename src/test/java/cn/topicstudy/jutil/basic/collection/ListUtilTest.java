@@ -26,7 +26,7 @@ public class ListUtilTest {
 
     @Test
     public void shuffle() {
-        List shuffledList = ListUtil.shuffle(list);
+        List shuffledList = ListUtil.shuffle(list,3);
 
         // shuffledList和list不完全一样就通过
         boolean success = false;
