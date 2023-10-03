@@ -19,6 +19,7 @@ public class StringUtilTest {
 
     @Test
     public void isBlank() {
+        Assert.assertFalse(StringUtil.isBlank("null"));
         Assert.assertTrue(StringUtil.isBlank(""));
         Assert.assertTrue(StringUtil.isBlank(String.valueOf(CharacterUtil.NBSP_SPACE)));
     }
@@ -60,5 +61,38 @@ public class StringUtilTest {
     @Test
     public void reverse() {
         assertEquals("CBA", StringUtil.reverse("ABC"));
+    }
+
+    public void testTestIsBlank() {
+    }
+
+    public void testTestIsNotBlank() {
+    }
+
+    public void testTestDeepTrim() {
+    }
+
+    public void testTestIsNumber() {
+    }
+
+    public void testReplaceAll() {
+    }
+
+    public void testTestContainsIgnoreCase() {
+    }
+
+    public void testTestReplaceLast() {
+    }
+
+    public void testTestReverse() {
+    }
+
+    public void testStrToBytes() {
+    }
+
+    public void testBytesToStr() {
+    }
+
+    public void testObjectToStrQuiet() {
     }
 }

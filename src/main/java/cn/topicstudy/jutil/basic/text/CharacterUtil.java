@@ -70,9 +70,9 @@ public class CharacterUtil {
     }
 
     /**
-     * 是否是字母
+     * Determines if the character is letter(a-z or A-Z).
      */
-    public static boolean isLatter(Character c) {
+    public static boolean isLetter(Character c) {
         return isLowerCaseLetter(c) || isUpperCaseLetter(c);
     }
 }

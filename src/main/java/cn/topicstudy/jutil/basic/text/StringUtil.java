@@ -15,11 +15,12 @@ public class StringUtil {
 
     /**
      * 判断字符串是否为空
+     * input     output
      * ""        true
      * "   "     true
-     * "   "     true  这里是nbsp空格，普通空格的编码是32，nbsp空格的编码是160
+     * "   "     true  it is nbsp space，普通空格的编码是32，nbsp空格的编码是160
      * "a"       false
-     * "null"    true    String.valueOf(obj)如果obj是null就转成“null”
+     * "null"    false
      */
     public static boolean isBlank(String s) {
         return s == null || deepTrim(s).isEmpty();
@@ -44,6 +45,7 @@ public class StringUtil {
 
     /**
      * 判断字符串是否是数值
+     * input        output
      * "100"        true
      * "100.01"     true
      * "100."       true
@@ -73,7 +75,7 @@ public class StringUtil {
 
     /**
      * 功能等价于String.replaceAll
-     * 但是"abc${name}123${name}".reolaceAll("${name}","wjh") 编译报错
+     * 但是"abc${name}123${name}".replaceAll("${name}","wjh") 编译报错
      * String.replace就是替换所有
      */
     @Deprecated
@@ -97,7 +99,7 @@ public class StringUtil {
     }
 
     /**
-     * 去掉最后一个，jdk有String.replaceFirst但五String.replaceLast
+     * 去掉最后一个，jdk有String.replaceFirst但无String.replaceLast
      * 例如s=12cd67cd01cd,replacement=cd
      */
     public static String replaceLast(String s, String target, String replacement) {
