@@ -10,7 +10,7 @@ Jutil aggregates code for utility commonly used in Java development, including t
 
 ## Links
 
-- [Documentation](https://topicstudys-organization.gitbook.io/open-source-doc/jutil/text)
+- [Documentation](https://topicstudys-organization.gitbook.io/open-source-doc/jutil)
 - [Samples](https://github.com/topicstudy/jutil/tree/master/src/test/java/cn/topicstudy/jutil)
 
 ## Features
@@ -67,7 +67,7 @@ Jutil aggregates code for utility commonly used in Java development, including t
   
     
 
-> This showcase is just one part of jutil features. If you want to learn more, please refer to the [documentation](https://topicstudys-organization.gitbook.io/open-source-doc/jutil/text).
+> This showcase is just one part of jutil features. If you want to learn more, please refer to the [documentation](https://topicstudys-organization.gitbook.io/open-source-doc/jutil).
 
 ## License
 
