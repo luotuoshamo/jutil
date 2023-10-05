@@ -1,8 +1,16 @@
-![](https://github.com/topicstudy/files/blob/main/img/logo/logo-jutil.png?raw=true)
+<p align="center">
+  <img width="320" src="https://github.com/topicstudy/files/blob/main/img/logo/logo-jutil.png?raw=true">
+</p>
 
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://github.com/topicstudy/jutil/blob/master/LICENSE)
+<p align="center">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0">
+    <img src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square"/>
+  </a>
+  <a href="https://search.maven.org/search?q=g:io.github.topicstudy%20AND%20a:jutil">
+    <img src="https://img.shields.io/maven-central/v/io.github.topicstudy/jutil.svg?style=flat-square"/>
+  </a>
+</p>
 
-[![maven](https://img.shields.io/maven-central/v/io.github.topicstudy/jutil.svg?style=flat-square)](https://search.maven.org/search?q=g:io.github.topicstudy%20AND%20a:jutil)
 
 ## What is Jutil?
 
@@ -58,15 +66,12 @@ Jutil aggregates code for utility commonly used in Java development, including t
   ```
 
   - Determines whether the price is a numeric value, to determine whether the user input is valid
-
-    ```
-    if(!StringUtil.isNumber(price)){
-       thr Exception
-    }
-    ```
+  ``` java
+  if(!StringUtil.isNumber(price)){
+  // thr Exception
+  }
+  ```
   
-    
-
 > This showcase is just one part of jutil features. If you want to learn more, please refer to the [documentation](https://topicstudys-organization.gitbook.io/open-source-doc/jutil).
 
 ## License
