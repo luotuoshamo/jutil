@@ -1,6 +1,10 @@
 package cn.topicstudy.jutil.validation;
 
+import cn.topicstudy.jutil.basic.collection.CollectionUtil;
+import cn.topicstudy.jutil.basic.error.BizException;
+import cn.topicstudy.jutil.basic.error.CommonAssertUtil;
 import cn.topicstudy.jutil.basic.text.StringUtil;
+import cn.topicstudy.jutil.common.JutilErrorCodeEnum;
 import cn.topicstudy.jutil.validation.constraint.*;
 import lombok.Data;
 
@@ -13,105 +17,82 @@ import java.util.List;
 @Data
 public class FieldConstraintValidator implements ConstraintValidator {
     @Override
-    public List<ConstraintUnsatisfiedInfo> validate(Object obj) {
+    public void validate(Object obj, boolean isCheckAll) {
         List<ConstraintUnsatisfiedInfo> unsatisfiedInfoList = new ArrayList();
         try {
-            if (obj == null) {
-                return null;
-            }
+            CommonAssertUtil.throwException(obj == null, JutilErrorCodeEnum.VALIDATION_OBJ_IS_NULL);
             Class<?> cls = obj.getClass();
             Field[] fields = cls.getDeclaredFields();
+
+            // 无任何字段
             if (fields == null || fields.length == 0) {
-                return null;
+                return;
             }
             for (Field field : fields) {
                 field.setAccessible(true);
-                List<ConstraintUnsatisfiedInfo> fieldUnsatisfiedInfoList = validateField(field, obj);
-                if (fieldUnsatisfiedInfoList != null) {
-                    unsatisfiedInfoList.addAll(fieldUnsatisfiedInfoList);
-                }
+                validateField(field, obj);
             }
-            return unsatisfiedInfoList;
+            return;
+        } catch (BizException t) {
+            throw t;
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
     }
 
-    private List<ConstraintUnsatisfiedInfo> validateField(Field field, Object obj) throws IllegalAccessException {
+    private void validateField(Field field, Object obj) throws IllegalAccessException {
         if (field == null) {
-            return null;
+            return;
         }
 
-        List<ConstraintUnsatisfiedInfo> unsatisfiedInfoList = new ArrayList<>();
-
         Annotation[] annotations = field.getAnnotations();
+
+        // 没加注解的字段不校验
         if (annotations == null || annotations.length == 0) {
-            return null;
+            return;
         }
         Object fieldVal = field.get(obj);
         String fieldName = field.getName();
         for (Annotation annotation : annotations) {
-            ConstraintUnsatisfiedInfo unsatisfiedInfo = validateFieldByConstraint(fieldName, fieldVal, annotation);
-            if (unsatisfiedInfo != null) {
-                unsatisfiedInfoList.add(unsatisfiedInfo);
-            }
+            validateFieldByConstraint(fieldName, fieldVal, annotation);
         }
-        return unsatisfiedInfoList;
     }
 
-    private ConstraintUnsatisfiedInfo validateFieldByConstraint(String fieldName, Object fieldVal, Annotation annotation) {
+    private void validateFieldByConstraint(String fieldName, Object fieldVal, Annotation annotation) {
         if (annotation instanceof NotNull) {
             NotNull a = (NotNull) annotation;
-            if (fieldVal == null) {
-                return new ConstraintUnsatisfiedInfo(fieldName, null, a.message());
-            }
+            CommonAssertUtil.throwException(fieldVal == null, a.errorCode(), a.message());
         } else if (annotation instanceof NotBlank) {
             NotBlank a = (NotBlank) annotation;
             String value = (String) fieldVal;
-            if (StringUtil.isBlank(value)) {
-                return new ConstraintUnsatisfiedInfo(fieldName, value, a.message());
-            }
+            CommonAssertUtil.throwException(StringUtil.isBlank(value), a.errorCode(), a.message());
         } else if (annotation instanceof NotEmpty) {
             NotEmpty a = (NotEmpty) annotation;
             Collection value = (Collection) fieldVal;
-            if (value == null || value.isEmpty()) {
-                return new ConstraintUnsatisfiedInfo(fieldName, value, a.message());
-            }
+            CommonAssertUtil.throwException(CollectionUtil.isEmpty(value), a.errorCode(), a.message());
         } else if (annotation instanceof Range) {
             Range a = (Range) annotation;
             long MIN_VALUE = a.min();
             long MAX_VALUE = a.max();
             Number value = (Number) fieldVal;
-            // 如果需要校验null，加上@NotNull
-            if (value == null) {
-                return null;
-            }
-            if (value.longValue() < MIN_VALUE) {
-                String msg = StringUtil.isBlank(a.message()) ? "不可小于最小值：" + MIN_VALUE : a.message();
-                return new ConstraintUnsatisfiedInfo(fieldName, value, msg);
-            }
-            if (value.longValue() > MAX_VALUE) {
-                String msg = StringUtil.isBlank(a.message()) ? "不可大于最大值：" + MAX_VALUE : a.message();
-                return new ConstraintUnsatisfiedInfo(fieldName, value, msg);
-            }
+            // null的话也是不满足范围的
+            String msg = String.format("参数值为null，不满足范围：%s~%s", MIN_VALUE, MAX_VALUE);
+            CommonAssertUtil.throwException(value == null, a.errorCode(), msg);
+            msg = StringUtil.isBlank(a.message()) ? "不可小于最小值：" + MIN_VALUE : a.message();
+            CommonAssertUtil.throwException(value.longValue() < MIN_VALUE, a.errorCode(), msg);
+            msg = StringUtil.isBlank(a.message()) ? "不可大于最大值：" + MAX_VALUE : a.message();
+            CommonAssertUtil.throwException(value.longValue() > MAX_VALUE, a.errorCode(), msg);
         } else if (annotation instanceof Length) {
             Length a = (Length) annotation;
             long MIN_LENGTH = a.min();
             long MAX_LENGTH = a.max();
             String value = (String) fieldVal;
-            if (value == null) {
-                return null;
-            }
-            if (value.length() < MIN_LENGTH) {
-                String msg = StringUtil.isBlank(a.message()) ? "不可小于最小长度：" + MIN_LENGTH : a.message();
-                return new ConstraintUnsatisfiedInfo(fieldName, value, msg);
-            }
-            if (value.length() > MAX_LENGTH) {
-                String msg = StringUtil.isBlank(a.message()) ? "不可大于最大长度：" + MAX_LENGTH : a.message();
-                return new ConstraintUnsatisfiedInfo(fieldName, value, msg);
-            }
+            String msg = String.format("参数值为null，不满足长度范围：%s~%s", MIN_LENGTH, MAX_LENGTH);
+            CommonAssertUtil.throwException(value == null, a.errorCode(), msg);
+            msg = StringUtil.isBlank(a.message()) ? "不可小于最小长度：" + MIN_LENGTH : a.message();
+            CommonAssertUtil.throwException(value.length() < MIN_LENGTH, a.errorCode(), msg);
+            msg = StringUtil.isBlank(a.message()) ? "不可大于最大长度：" + MAX_LENGTH : a.message();
+            CommonAssertUtil.throwException(value.length() > MAX_LENGTH, a.errorCode(), msg);
         }
-
-        return null;
     }
 }

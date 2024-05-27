@@ -11,4 +11,6 @@ public @interface Range {
     long min() default 0;
 
     String message() default "";
+    String errorCode() default "PARAM_RANGE_UNSUITED";
+
 }

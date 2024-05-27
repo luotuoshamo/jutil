@@ -18,8 +18,8 @@ public class FieldConstraintValidatorTest extends TestCase {
         CreateUserParam param = new CreateUserParam();
         param.setName("张");
         param.setLength(500);
-        List<ConstraintUnsatisfiedInfo> validate = fieldConstraintValidator.validate(param);
-        System.out.println(validate);
+         fieldConstraintValidator.validate(param, true);
+
 
     }
 }
