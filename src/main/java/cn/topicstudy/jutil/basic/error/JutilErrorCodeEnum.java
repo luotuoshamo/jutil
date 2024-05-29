@@ -1,14 +1,13 @@
-package cn.topicstudy.jutil.common;
+package cn.topicstudy.jutil.basic.error;
 
-import cn.topicstudy.jutil.basic.error.BaseErrorCodeEnum;
 
 public enum JutilErrorCodeEnum implements BaseErrorCodeEnum {
     SYS_ERROR("TS-jutil-0-0", "系统错误"),
 
     /**
-     * validation
+     * validation:1
      */
-    VALIDATION_OBJ_IS_NULL("TS-jutil-validation-0", "校验属性时，参数为空"),
+    VALIDATION_OBJ_IS_NULL("U-TS-JUTIL-1-0", "校验属性时，参数为空"),
 
     ;
     private String errorCode;

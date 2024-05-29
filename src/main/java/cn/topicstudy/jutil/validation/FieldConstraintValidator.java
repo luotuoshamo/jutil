@@ -4,21 +4,18 @@ import cn.topicstudy.jutil.basic.collection.CollectionUtil;
 import cn.topicstudy.jutil.basic.error.BizException;
 import cn.topicstudy.jutil.basic.error.CommonAssertUtil;
 import cn.topicstudy.jutil.basic.text.StringUtil;
-import cn.topicstudy.jutil.common.JutilErrorCodeEnum;
+import cn.topicstudy.jutil.basic.error.JutilErrorCodeEnum;
 import cn.topicstudy.jutil.validation.constraint.*;
 import lombok.Data;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 public class FieldConstraintValidator implements ConstraintValidator {
     @Override
-    public void validate(Object obj, boolean isCheckAll) {
-        List<ConstraintUnsatisfiedInfo> unsatisfiedInfoList = new ArrayList();
+    public void validate(Object obj) {
         try {
             CommonAssertUtil.throwException(obj == null, JutilErrorCodeEnum.VALIDATION_OBJ_IS_NULL);
             Class<?> cls = obj.getClass();
