@@ -41,7 +41,7 @@ Jutil aggregates code for utility commonly used in Java development, including t
     <dependency>
         <groupId>io.github.topicstudy</groupId>
         <artifactId>jutil</artifactId>
-        <version>Latest Version</version>
+        <version>RELEASE</version>
     </dependency>
     ```
 
