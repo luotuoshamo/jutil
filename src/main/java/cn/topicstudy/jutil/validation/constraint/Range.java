@@ -6,11 +6,22 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Range {
+    /**
+     * exclusive
+     *
+     * @return
+     */
     long max() default Long.MAX_VALUE;
 
+    /**
+     * inclusive
+     *
+     * @return
+     */
     long min() default 0;
 
     String message() default "";
+
     String errorCode() default "PARAM_RANGE_UNSUITED";
 
 }

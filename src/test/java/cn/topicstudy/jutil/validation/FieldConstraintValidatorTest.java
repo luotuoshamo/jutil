@@ -1,5 +1,6 @@
 package cn.topicstudy.jutil.validation;
 
+import cn.topicstudy.jutil.basic.error.BizException;
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -18,8 +19,11 @@ public class FieldConstraintValidatorTest extends TestCase {
         CreateUserParam param = new CreateUserParam();
         param.setName("张");
         param.setLength(500);
-         fieldConstraintValidator.validate(param);
+        try{
+            fieldConstraintValidator.validate(param, "ERROR_CODE_001");
 
-
+        }catch (BizException bizException){
+            System.out.println(bizException.getErrorCode()+","+bizException.getErrorMsg());
+        }
     }
 }

@@ -2,12 +2,12 @@ package cn.topicstudy.jutil.basic.error;
 
 
 public enum JutilErrorCodeEnum implements BaseErrorCodeEnum {
-    SYS_ERROR("TS-jutil-0-0", "系统错误"),
+    SYS_ERROR("TS-jutil-0-0", "Unknown error."),
 
     /**
-     * validation:1
+     * validation
      */
-    VALIDATION_OBJ_IS_NULL("U-TS-JUTIL-1-0", "校验属性时，参数为空"),
+    VALIDATION_OBJ_IS_NULL("U-TS-JUTIL-VALIDATION-0", "The object can't be null."),
 
     ;
     private String errorCode;

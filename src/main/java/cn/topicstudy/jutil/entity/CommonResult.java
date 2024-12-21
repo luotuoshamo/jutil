@@ -64,7 +64,7 @@ public class CommonResult<T> extends BaseDTO {
      * @return
      */
     public static CommonResult ofSuccessForPageEmptyResult() {
-        return ofSuccessForPage(0, new ArrayList<>());
+        return ofSuccessForPage(0, new ArrayList<>(0));
     }
 
     public static CommonResult ofError(String errorCode, String errorMsg) {

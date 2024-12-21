@@ -6,6 +6,6 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotBlank {
-    String message() default "不可为空";
+    String message() default "Field can not be blank.";
     String errorCode() default "PARAM_IS_BLANK";
 }

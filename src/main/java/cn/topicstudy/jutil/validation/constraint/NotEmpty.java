@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 // RUNTIME才能在运行时拿到注解
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotEmpty {
-    String message() default "不可为空";
+    String message() default "The collect can not be empty.";
     String errorCode() default "PARAM_IS_EMPTY";
 }
