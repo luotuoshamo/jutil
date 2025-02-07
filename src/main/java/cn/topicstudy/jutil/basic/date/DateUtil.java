@@ -28,13 +28,16 @@ public class DateUtil {
      * 报错
      * new SimpleDateFormat("yyyyMMdd").parse("2021#02#25");
      */
-    public static Date stringToDate(String s, String mask) throws ParseException {
-        // mask和s必须都包含-或都不包含
-        if (mask.contains("-") ^ s.contains("-")) {
-            throw new RuntimeException(" mask【" + mask + "】和s【" + s + "】必须都包含-或都不包含");
+    public static Date stringToDate(String s, String mask) {
+        try {
+            if (mask.contains("-") ^ s.contains("-")) {
+                throw new RuntimeException("mask and date string are not in the same format.");
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat(mask);
+            return sdf.parse(s);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(mask);
-        return sdf.parse(s);
     }
 
     public static String dateToString(Date d, String mask) {
@@ -74,16 +77,17 @@ public class DateUtil {
     /**
      * 当前时间
      */
-    public static Date nowDate(){
+    public static Date nowDate() {
         return new Date();
     }
 
     /**
      * 当前时间
+     *
      * @param mask
      * @return String
      */
-    public static String nowDateString(String mask){
+    public static String nowDateString(String mask) {
         return dateToString(nowDate(), mask);
     }
 }

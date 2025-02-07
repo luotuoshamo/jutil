@@ -1,6 +1,7 @@
 package cn.topicstudy.jutil.validation.constraint;
 
 import java.lang.annotation.*;
+import java.util.SplittableRandom;
 
 @Target(ElementType.FIELD)
 @Inherited
@@ -11,17 +12,19 @@ public @interface Range {
      *
      * @return
      */
-    long max() default Long.MAX_VALUE;
+    String max();
 
     /**
      * inclusive
      *
      * @return
      */
-    long min() default 0;
+    String min();
+
+    Class<? extends Number> numberType();
 
     String message() default "";
 
-    String errorCode() default "PARAM_RANGE_UNSUITED";
+    String errorCode() default "";
 
 }

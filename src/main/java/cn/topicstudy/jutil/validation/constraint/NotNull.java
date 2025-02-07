@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotNull {
-    String message() default "The field can not be null.";
+    String message() default "";
 
-    String errorCode() default "PARAM_IS_NULL";
+    String errorCode() default "";
 }

@@ -10,7 +10,14 @@ import lombok.Data;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 @Data
 public class FieldConstraintValidator implements ConstraintValidator {
@@ -71,44 +78,87 @@ public class FieldConstraintValidator implements ConstraintValidator {
             return;
         }
         Object fieldVal = field.get(obj);
-//        String fieldName = field.getName();
+        String fieldName = field.getName();
         for (Annotation annotation : annotations) {
-            validateFieldByConstraint(fieldVal, annotation, errorCode);
+            validateFieldByConstraint(fieldName, fieldVal, annotation, errorCode);
         }
     }
 
-    private void validateFieldByConstraint(Object fieldVal, Annotation annotation, String errorCode) {
+    /**
+     * @param fieldName
+     * @param fieldVal   if it's null, I'll skip check, you can use @NotNull before.
+     * @param annotation
+     * @param errorCode
+     */
+    private void validateFieldByConstraint(String fieldName, Object fieldVal, Annotation annotation, String errorCode) {
         if (annotation instanceof NotNull) {
             NotNull a = (NotNull) annotation;
-            String errCode = StringUtil.isNotBlank(errorCode) ? errorCode : a.errorCode();
-            CommonAssertUtil.throwException(fieldVal == null, errCode, a.message());
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : fieldName + " is required";
+            CommonAssertUtil.throwException(fieldVal == null, errCode, errMsg);
         } else if (annotation instanceof NotBlank) {
             NotBlank a = (NotBlank) annotation;
-            String errCode = StringUtil.isNotBlank(errorCode) ? errorCode : a.errorCode();
-            String value = (String) fieldVal;
-            CommonAssertUtil.throwException(StringUtil.isBlank(value), errCode, a.message());
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : fieldName + " is required";
+            CommonAssertUtil.throwException(StringUtil.isBlank((String) fieldVal), errCode, errMsg);
         } else if (annotation instanceof NotEmpty) {
             NotEmpty a = (NotEmpty) annotation;
-            String errCode = StringUtil.isNotBlank(errorCode) ? errorCode : a.errorCode();
-            Collection value = (Collection) fieldVal;
-            CommonAssertUtil.throwException(CollectionUtil.isEmpty(value), errCode, a.message());
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : fieldName + " is required";
+            CommonAssertUtil.throwException(fieldVal != null && CollectionUtil.isEmpty((Collection) fieldVal), errCode, errMsg);
         } else if (annotation instanceof Range) {
             Range a = (Range) annotation;
-            String errCode = StringUtil.isNotBlank(errorCode) ? errorCode : a.errorCode();
-            long MIN_VALUE = a.min();
-            long MAX_VALUE = a.max();
-            Number value = (Number) fieldVal;
-            boolean isInRange = value != null
-                    && (value.longValue() >= MIN_VALUE && value.longValue() < MAX_VALUE);
-            CommonAssertUtil.throwException(!isInRange, errCode, a.message());
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            CommonAssertUtil.throwException(a.numberType() == null, errCode, "numberType of @Range is required");
+
+            Map<Class<? extends Number>, Function<String, ? extends Number>> converterMap = new HashMap<>();
+            converterMap.put(Integer.class, Integer::parseInt);
+            converterMap.put(Double.class, Double::parseDouble);
+            converterMap.put(Long.class, Long::parseLong);
+            converterMap.put(Float.class, Float::parseFloat);
+            Function<String, ? extends Number> convertFunction = converterMap.get(a.numberType());
+            CommonAssertUtil.throwException(convertFunction == null, errCode, "@Range can only be used for Integer, Long, Double, and Float");
+
+            Number min = convertFunction.apply(a.min());
+            Number max = convertFunction.apply(a.max());
+            if (fieldVal != null) {
+                Number value = (Number) fieldVal;
+                boolean isOutOfRange = value.doubleValue() < min.doubleValue() ||
+                        value.doubleValue() >= max.doubleValue();
+                String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : String.format("%s value needs to be within the range [%s, %s)", fieldName, min, max);
+                CommonAssertUtil.throwException(isOutOfRange, errCode, errMsg);
+            }
         } else if (annotation instanceof Length) {
             Length a = (Length) annotation;
-            long MIN_LENGTH = a.min();
-            long MAX_LENGTH = a.max();
-            String value = (String) fieldVal;
-            boolean isSuitable = value != null && (value.length() >= MIN_LENGTH && value.length() < MAX_LENGTH);
-            String errCode = StringUtil.isNotBlank(errorCode) ? errorCode : a.errorCode();
-            CommonAssertUtil.throwException(!isSuitable, errCode, a.message());
+            long minLength = a.min();
+            long maxLength = a.max();
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            if (fieldVal != null) {
+                CommonAssertUtil.throwException(!(fieldVal instanceof String), errCode, fieldName + "@Length can only be used for String");
+                String value = (String) fieldVal;
+                boolean isSuitable = (value.length() >= minLength) && (value.length() < maxLength);
+                String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : String.format("%s value's length needs to be within the range [%s, %s)", fieldName, minLength, maxLength);
+                CommonAssertUtil.throwException(!isSuitable, errCode, errMsg);
+            }
+        } else if (annotation instanceof DateFormat) {
+            DateFormat a = (DateFormat) annotation;
+            String errCode = StringUtil.isNotBlank(a.errorCode()) ? a.errorCode() : errorCode;
+            if (fieldVal != null) {
+                CommonAssertUtil.throwException(!(fieldVal instanceof String), errCode, fieldName + "@DateFormat can only be used for String");
+                String value = (String) fieldVal;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(a.format());
+                try {
+                    LocalDateTime.parse(value, formatter);
+                } catch (DateTimeParseException e) {
+                    try {
+                        LocalDate.parse(value, formatter);
+                    } catch (DateTimeParseException ee) {
+                        e.printStackTrace();
+                        String errMsg = StringUtil.isNotBlank(a.message()) ? a.message() : fieldName + " needs in the format " + a.format();
+                        CommonAssertUtil.throwException(true, errCode, errMsg);
+                    }
+                }
+            }
         }
     }
 }

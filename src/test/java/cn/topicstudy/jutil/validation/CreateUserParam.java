@@ -1,16 +1,29 @@
 package cn.topicstudy.jutil.validation;
 
-import cn.topicstudy.jutil.validation.constraint.Length;
-import cn.topicstudy.jutil.validation.constraint.NotBlank;
-import cn.topicstudy.jutil.validation.constraint.Range;
+import cn.topicstudy.jutil.validation.constraint.*;
 import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
 
 @Data
 public class CreateUserParam {
-    @NotBlank
-    @Length(max = 3, min = 2, message = "the length of name must between 2 to 3")
-    private String name;
+    @NotNull
+    private Object objectForTestNull;
 
-    @Range(min = 0, max = 300)
-    private int length;
+    @NotBlank
+    private String stringForTestBlank;
+
+    @NotEmpty
+    private List listForTestEmpty;
+
+    @Length(max = 3, min = 2, message = "the length of name must between 2 to 3")
+    private String stringForTestLength;
+
+    @Range(min = "100", max = "300", numberType = Integer.class)
+    private int intForTestRange;
+
+    @DateFormat(format = "yyyy-MM-dd HH:mm")
+    private String dateForTestDateFormat;
+
 }

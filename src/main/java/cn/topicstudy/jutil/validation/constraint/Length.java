@@ -11,6 +11,6 @@ public @interface Length {
     long min() default 0;
 
     String message() default "";
-    String errorCode() default "PARAM_LENGTH_UNSUITED";
+    String errorCode() default "";
 
 }
